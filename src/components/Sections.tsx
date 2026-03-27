@@ -10,14 +10,15 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.15 } },
 }
 
-function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
+function Section({ children, className = '', id }: { children: ReactNode; className?: string; id?: string }) {
   return (
     <motion.section
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-100px' }}
       variants={stagger}
-      className={`px-6 py-24 md:px-12 lg:py-32 ${className}`}
+      id={id}
+      className={`scroll-mt-16 px-6 py-24 md:px-12 lg:py-32 ${className}`}
     >
       <div className="mx-auto max-w-5xl">{children}</div>
     </motion.section>
@@ -51,7 +52,7 @@ function SectionText({ children }: { children: ReactNode }) {
 // --- ABOUT ---
 export function About() {
   return (
-    <Section className="bg-white">
+    <Section className="bg-white" id="about">
       <SectionLabel>About</SectionLabel>
       <SectionTitle>Building systems that make lives better.</SectionTitle>
       <SectionText>
@@ -144,7 +145,7 @@ function StatusBadge({ status }: { status: string }) {
 export function Portfolio() {
   return (
     <>
-      <Section className="bg-gray-50">
+      <Section className="bg-gray-50" id="products">
         <SectionLabel>Orca Ecosystem</SectionLabel>
         <SectionTitle>Products we're building.</SectionTitle>
         <SectionText>
@@ -226,7 +227,7 @@ const capabilities = [
 
 export function Capabilities() {
   return (
-    <Section className="bg-white">
+    <Section className="bg-white" id="capabilities">
       <SectionLabel>Capabilities</SectionLabel>
       <SectionTitle>What we do best.</SectionTitle>
 
@@ -268,13 +269,13 @@ export function TechStack() {
 // --- CONTACT ---
 export function Contact() {
   return (
-    <Section className="bg-charcoal text-white">
+    <Section className="bg-charcoal text-white" id="contact">
       <SectionLabel>Contact</SectionLabel>
       <motion.h2 variants={fadeUp} className="mb-6 text-3xl font-semibold tracking-tight text-white md:text-5xl">
         Let's build something together.
       </motion.h2>
       <motion.div variants={fadeUp} className="space-y-3 text-lg text-white/60">
-        <p>admin@suterahijau.com</p>
+        <p><a href="mailto:admin@suterahijau.com" className="transition-colors hover:text-white">admin@suterahijau.com</a></p>
         <p>Cyberjaya, Selangor, Malaysia</p>
       </motion.div>
       <motion.div variants={fadeUp} className="mt-8">
