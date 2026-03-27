@@ -8,6 +8,7 @@ const vertexShader = `
   uniform vec2 uMouse;
   varying vec2 vUv;
   varying float vElevation;
+  varying vec3 vNormal;
 
   void main() {
     vUv = uv;
@@ -15,20 +16,32 @@ const vertexShader = `
 
     // Distance from mouse
     float dist = distance(uv, uMouse);
-    float mouseInfluence = smoothstep(0.5, 0.0, dist) * 0.15;
+    float mouseInfluence = smoothstep(0.45, 0.0, dist) * 0.25;
 
-    // Silk wave patterns - multiple overlapping sine waves
-    float wave1 = sin(pos.x * 3.0 + uTime * 0.8) * 0.06;
-    float wave2 = sin(pos.y * 4.0 + uTime * 0.6) * 0.04;
-    float wave3 = sin(pos.x * 2.0 + pos.y * 3.0 + uTime * 1.0) * 0.03;
-    float wave4 = sin(pos.x * 5.0 - uTime * 0.4) * 0.02;
+    // Draped fabric folds — larger, softer undulations like cloth on floor
+    float fold1 = sin(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.3) * 0.12;
+    float fold2 = sin(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.25) * 0.10;
+    float fold3 = sin(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.4) * 0.05;
+    float fold4 = cos(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.35) * 0.07;
 
-    // Mouse ripple effect
-    float ripple = sin(dist * 20.0 - uTime * 3.0) * mouseInfluence;
+    // Wrinkle detail — fine creases
+    float wrinkle1 = sin(pos.x * 8.0 + pos.y * 6.0 + uTime * 0.5) * 0.015;
+    float wrinkle2 = sin(pos.x * 12.0 - pos.y * 9.0 + uTime * 0.3) * 0.008;
 
-    float elevation = wave1 + wave2 + wave3 + wave4 + ripple;
+    // Mouse push — like pressing down on draped cloth
+    float push = sin(dist * 12.0 - uTime * 2.5) * mouseInfluence;
+    float lift = smoothstep(0.3, 0.0, dist) * 0.08;
+
+    float elevation = fold1 + fold2 + fold3 + fold4 + wrinkle1 + wrinkle2 + push + lift;
     pos.z = elevation;
     vElevation = elevation;
+
+    // Calculate normal for lighting
+    float dx = cos(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.3) * 2.0 * 0.12
+             + cos(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.4) * 3.5 * 0.05;
+    float dy = cos(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.25) * 1.8 * 0.10
+             - sin(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.35) * 2.8 * 0.07;
+    vNormal = normalize(vec3(-dx, -dy, 1.0));
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
@@ -39,35 +52,49 @@ const fragmentShader = `
   uniform vec2 uMouse;
   varying vec2 vUv;
   varying float vElevation;
+  varying vec3 vNormal;
 
   void main() {
-    // Silk green palette
-    vec3 deepGreen = vec3(0.06, 0.34, 0.22);
-    vec3 brightGreen = vec3(0.13, 0.55, 0.36);
-    vec3 highlight = vec3(0.2, 0.75, 0.5);
-    vec3 shadow = vec3(0.03, 0.15, 0.1);
+    // Rich silk green palette
+    vec3 deepGreen = vec3(0.04, 0.22, 0.14);
+    vec3 midGreen = vec3(0.08, 0.38, 0.24);
+    vec3 brightGreen = vec3(0.14, 0.55, 0.36);
+    vec3 highlight = vec3(0.25, 0.78, 0.52);
+    vec3 shadow = vec3(0.02, 0.08, 0.05);
 
-    // Silk sheen based on elevation (light catching folds)
-    float sheen = smoothstep(-0.1, 0.15, vElevation);
-    float deepShadow = smoothstep(0.05, -0.12, vElevation);
+    // Top-down lighting — light from top-left
+    vec3 lightDir = normalize(vec3(-0.3, -0.4, 1.0));
+    float diffuse = max(dot(vNormal, lightDir), 0.0);
+    float specular = pow(max(dot(reflect(-lightDir, vNormal), vec3(0.0, 0.0, 1.0)), 0.0), 32.0);
 
-    // Iridescent shift based on viewing angle (simulated via UV)
-    float iridescence = sin(vUv.x * 8.0 + vUv.y * 6.0 + uTime * 0.3) * 0.5 + 0.5;
+    // Fold shadows and highlights
+    float foldLight = smoothstep(-0.15, 0.2, vElevation);
+    float foldShadow = smoothstep(0.0, -0.18, vElevation);
 
-    // Mix colors for silk look
-    vec3 color = mix(deepGreen, brightGreen, sheen);
-    color = mix(color, highlight, sheen * sheen * 0.6);
-    color = mix(color, shadow, deepShadow * 0.5);
-    color += vec3(0.02, 0.06, 0.04) * iridescence * sheen;
+    // Base silk color with lighting
+    vec3 color = mix(deepGreen, midGreen, diffuse * 0.8);
+    color = mix(color, brightGreen, foldLight * diffuse);
+    color = mix(color, shadow, foldShadow * 0.6);
 
-    // Mouse proximity glow
+    // Silk specular sheen — bright catchlights on folds
+    color += highlight * specular * 0.4;
+
+    // Silk iridescence — subtle color shift across fabric
+    float irid = sin(vUv.x * 6.0 + vUv.y * 4.0 + uTime * 0.2) * 0.5 + 0.5;
+    color += vec3(0.01, 0.04, 0.02) * irid * foldLight;
+
+    // Mouse area — soft warm glow like light touching silk
     float dist = distance(vUv, uMouse);
-    float glow = smoothstep(0.4, 0.0, dist) * 0.15;
-    color += vec3(0.05, 0.15, 0.1) * glow;
+    float glow = smoothstep(0.35, 0.0, dist) * 0.2;
+    color += highlight * glow * 0.3;
 
-    // Subtle silk grain
-    float grain = fract(sin(dot(vUv * 200.0, vec2(12.9898, 78.233))) * 43758.5453);
-    color += grain * 0.015;
+    // Subtle silk texture grain
+    float grain = fract(sin(dot(vUv * 300.0, vec2(12.9898, 78.233))) * 43758.5453);
+    color += grain * 0.01;
+
+    // Soft vignette — darker edges like draped fabric curling
+    float vignette = smoothstep(0.0, 0.7, length(vUv - 0.5));
+    color = mix(color, shadow, vignette * 0.4);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -88,11 +115,10 @@ function SilkMesh() {
     const material = meshRef.current.material as ShaderMaterial
     material.uniforms.uTime.value = state.clock.elapsedTime
 
-    // Smooth mouse follow
     const target = mouseRef.current
     const current = material.uniforms.uMouse.value
-    current.x += (target.x - current.x) * 0.05
-    current.y += (target.y - current.y) * 0.05
+    current.x += (target.x - current.x) * 0.04
+    current.y += (target.y - current.y) * 0.04
   })
 
   const handlePointerMove = (e: { uv?: { x: number; y: number } | null }) => {
@@ -104,11 +130,11 @@ function SilkMesh() {
   return (
     <mesh
       ref={meshRef}
-      rotation={[-Math.PI / 2.8, 0, 0]}
-      position={[0, -0.3, 0]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, 0, 0]}
       onPointerMove={handlePointerMove}
     >
-      <planeGeometry args={[viewport.width * 1.2, viewport.height * 1.2, 128, 128]} />
+      <planeGeometry args={[viewport.width * 1.5, viewport.height * 1.5, 200, 200]} />
       <shaderMaterial
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
@@ -121,17 +147,15 @@ function SilkMesh() {
 export default function SilkHero() {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-charcoal">
-      {/* 3D Silk Canvas */}
       <div className="absolute inset-0">
         <Canvas
-          camera={{ position: [0, 0, 2.5], fov: 50 }}
-          style={{ background: '#111111' }}
+          camera={{ position: [0, 2.2, 0], fov: 45, near: 0.1, far: 10 }}
+          style={{ background: '#0a0a0a' }}
         >
           <SilkMesh />
         </Canvas>
       </div>
 
-      {/* Overlay Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center pointer-events-none">
         <img
           src="/logo.png"
@@ -146,7 +170,6 @@ export default function SilkHero() {
         </p>
       </div>
 
-      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">
         <div className="flex flex-col items-center gap-2">
           <span className="text-[10px] tracking-[0.2em] text-white/30 uppercase">Scroll</span>
