@@ -64,13 +64,53 @@ export function About() {
   )
 }
 
-// --- PORTFOLIO ---
-const projects = [
+// --- ORCA ECOSYSTEM ---
+const orcaProducts = [
   {
-    name: 'OrcaSMS',
-    desc: 'Intelligent SMS management platform with AI-powered campaign tools.',
-    tag: 'SaaS',
+    name: 'OrcaSchool',
+    desc: 'AI-powered learning management and school administration platform.',
+    tag: 'EdTech',
+    status: 'Beta',
   },
+  {
+    name: 'OrcaPulse',
+    desc: 'Intelligent customer support and ticketing system with real-time notifications.',
+    tag: 'Support',
+    status: 'Live',
+  },
+  {
+    name: 'OrcaPost',
+    desc: 'AI social media automation — content generation, scheduling, and multi-platform publishing.',
+    tag: 'Social Media',
+    status: 'Beta',
+  },
+  {
+    name: 'OrcaIlm',
+    desc: 'Islamic knowledge research centre — powered by OrcaSheikh. Scholarly research and content curation.',
+    tag: 'Islamic',
+    status: 'Coming Soon',
+  },
+  {
+    name: 'OrcaArena',
+    desc: 'Competitive gaming and esports tournament management platform.',
+    tag: 'Gaming',
+    status: 'Coming Soon',
+  },
+  {
+    name: 'OrcaNexus',
+    desc: 'Team collaboration and project management for distributed teams.',
+    tag: 'Productivity',
+    status: 'Live',
+  },
+  {
+    name: 'Nurflix',
+    desc: 'AI-powered cinematic content and storytelling platform.',
+    tag: 'Content',
+    status: 'Coming Soon',
+  },
+]
+
+const clientProjects = [
   {
     name: 'BayarZakat',
     desc: 'Digital zakat collection and distribution system for Malaysian communities.',
@@ -86,46 +126,81 @@ const projects = [
     desc: 'QR-powered ecosystem — Scan2Eat (F&B ordering), Scan2Mind (knowledge sharing).',
     tag: 'Platform',
   },
-  {
-    name: 'OrcaNexus',
-    desc: 'Team collaboration and project management for distributed teams.',
-    tag: 'Productivity',
-  },
-  {
-    name: 'Nurflix',
-    desc: 'AI-powered cinematic content platform. Coming soon.',
-    tag: 'Content',
-  },
 ]
+
+function StatusBadge({ status }: { status: string }) {
+  const styles: Record<string, string> = {
+    'Live': 'bg-silk/15 text-silk',
+    'Beta': 'bg-amber-50 text-amber-600',
+    'Coming Soon': 'bg-gray-100 text-gray-400',
+  }
+  return (
+    <span className={`ml-2 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${styles[status] || styles['Coming Soon']}`}>
+      {status}
+    </span>
+  )
+}
 
 export function Portfolio() {
   return (
-    <Section className="bg-gray-50">
-      <SectionLabel>Portfolio</SectionLabel>
-      <SectionTitle>Products we've shipped.</SectionTitle>
-      <SectionText>
-        From concept to production — each product solves a real problem for real people.
-      </SectionText>
+    <>
+      <Section className="bg-gray-50">
+        <SectionLabel>Orca Ecosystem</SectionLabel>
+        <SectionTitle>Products we're building.</SectionTitle>
+        <SectionText>
+          A growing suite of AI-powered platforms — from concept to production.
+        </SectionText>
 
-      <motion.div
-        variants={stagger}
-        className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {projects.map((p) => (
-          <motion.div
-            key={p.name}
-            variants={fadeUp}
-            className="group rounded-2xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-lg"
-          >
-            <span className="mb-4 inline-block rounded-full bg-silk/10 px-3 py-1 text-xs font-medium text-silk">
-              {p.tag}
-            </span>
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">{p.name}</h3>
-            <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </Section>
+        <motion.div
+          variants={stagger}
+          className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {orcaProducts.map((p) => (
+            <motion.div
+              key={p.name}
+              variants={fadeUp}
+              className="group rounded-2xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-lg"
+            >
+              <div className="mb-4 flex items-center">
+                <span className="inline-block rounded-full bg-silk/10 px-3 py-1 text-xs font-medium text-silk">
+                  {p.tag}
+                </span>
+                <StatusBadge status={p.status} />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-gray-900">{p.name}</h3>
+              <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Section>
+
+      <Section className="bg-white">
+        <SectionLabel>Client Projects</SectionLabel>
+        <SectionTitle>Solutions we've delivered.</SectionTitle>
+        <SectionText>
+          Custom-built platforms for organisations across Malaysia.
+        </SectionText>
+
+        <motion.div
+          variants={stagger}
+          className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {clientProjects.map((p) => (
+            <motion.div
+              key={p.name}
+              variants={fadeUp}
+              className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-shadow hover:shadow-lg"
+            >
+              <span className="mb-4 inline-block rounded-full bg-gray-200/60 px-3 py-1 text-xs font-medium text-gray-600">
+                {p.tag}
+              </span>
+              <h3 className="mb-2 text-xl font-semibold text-gray-900">{p.name}</h3>
+              <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Section>
+    </>
   )
 }
 
