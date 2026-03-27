@@ -86,6 +86,9 @@ const fragmentShader = `
     float vignette = smoothstep(0.0, 0.75, length(vUv - 0.5));
     color = mix(color, vec3(0.01, 0.03, 0.02), vignette * 0.5);
 
+    // Fade to 70% opacity — blend with dark bg
+    color *= 0.7;
+
     gl_FragColor = vec4(color, 1.0);
   }
 `
