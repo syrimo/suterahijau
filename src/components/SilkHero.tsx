@@ -210,7 +210,7 @@ export default function SilkHero() {
           className="mb-6 h-14 opacity-90 drop-shadow-lg md:h-18 lg:h-20"
         />
         <p className="mt-2 text-sm tracking-[0.3em] text-white/60 uppercase md:text-base" aria-label="Tagline">
-          Technology Incubator & Digital Solutions
+          AI-Powered Platforms for Communities That Matter
         </p>
         <p className="mt-1 text-xs tracking-[0.2em] text-white/40 uppercase">
           Est. 2017 — Cyberjaya, Selangor

@@ -93,7 +93,7 @@ const orcaProducts = [
   },
   {
     name: 'OrcaArena',
-    desc: 'AI debate arena — watch AI models clash on real topics. Learn from structured arguments and counter-arguments.',
+    desc: 'AI-powered debate platform — structured arguments, counter-arguments, and evidence-based reasoning on real-world topics.',
     tag: 'AI Debate',
     status: 'Coming Soon',
   },
@@ -176,7 +176,7 @@ export function Portfolio() {
       </Section>
 
       <Section className="bg-white" id="clients">
-        <SectionLabel>Client Projects</SectionLabel>
+        <SectionLabel>Work</SectionLabel>
         <SectionTitle>Platforms we've shipped.</SectionTitle>
         <SectionText>
           Custom-built solutions for organisations across Malaysia.
