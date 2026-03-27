@@ -86,9 +86,6 @@ const fragmentShader = `
     float vignette = smoothstep(0.0, 0.75, length(vUv - 0.5));
     color = mix(color, vec3(0.01, 0.03, 0.02), vignette * 0.5);
 
-    // Fade to 70% opacity — blend with dark bg
-    color *= 0.7;
-
     gl_FragColor = vec4(color, 1.0);
   }
 `
@@ -160,6 +157,9 @@ export default function SilkHero() {
       <div className="absolute inset-0">
         <SilkCanvas />
       </div>
+
+      {/* Dark overlay shade on top of silk */}
+      <div className="absolute inset-0 z-[5] bg-black/40" />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center pointer-events-none">
         <img
