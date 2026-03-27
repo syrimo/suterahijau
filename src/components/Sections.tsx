@@ -123,8 +123,8 @@ const clientProjects = [
   },
   {
     name: 'Scan2Verse',
-    desc: 'QR-powered ecosystem — Scan2Eat (F&B ordering), Scan2Mind (knowledge sharing).',
-    tag: 'Platform',
+    desc: 'Health tech platform — Scan2Mind (mental health screening), Scan2Eat (food intelligence & community AI training).',
+    tag: 'Health Tech',
   },
 ]
 
