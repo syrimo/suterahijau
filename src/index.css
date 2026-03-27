@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --color-silk: #1a8a5c;
+  --color-silk-light: #22c55e;
+  --color-silk-dark: #0f5c3a;
+  --color-charcoal: #111111;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbar for hero section */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
