@@ -5,7 +5,7 @@ import { About, Portfolio, Capabilities, TechStack, Contact, Footer } from './co
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Products', href: '#products' },
-  { label: 'Capabilities', href: '#capabilities' },
+  { label: 'Work', href: '#clients' },
   { label: 'Contact', href: '#contact' },
 ]
 

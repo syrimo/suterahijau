@@ -203,7 +203,7 @@ export default function SilkHero() {
       </div>
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center pointer-events-none">
-        <h1 className="sr-only">Sutera Hijau Academy Sdn. Bhd. — Technology Incubator & Digital Solutions</h1>
+        <h1 className="sr-only">Sutera Hijau Academy Sdn. Bhd. — Building AI-Powered Platforms for Communities That Matter</h1>
         <img
           src="/logo-white.png"
           alt="Sutera Hijau Academy Sdn. Bhd."

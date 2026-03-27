@@ -54,7 +54,7 @@ export function About() {
   return (
     <Section className="bg-white" id="about">
       <SectionLabel>About</SectionLabel>
-      <SectionTitle>Building systems that make lives better.</SectionTitle>
+      <SectionTitle>Building AI-powered platforms for communities that matter.</SectionTitle>
       <SectionText>
         Sutera Hijau Academy Sdn. Bhd. is a technology incubator based in Cyberjaya, Selangor.
         Since 2017, we design, build, and ship digital products — from AI-powered platforms to
@@ -87,7 +87,7 @@ const orcaProducts = [
   },
   {
     name: 'OrcaScholar',
-    desc: 'Islamic knowledge research centre — powered by OrcaSheikh. Scholarly research, content curation, and authenticated references.',
+    desc: 'Islamic knowledge platform — AI-powered research, content curation, and authenticated scholarly references.',
     tag: 'Islamic',
     status: 'Coming Soon',
   },
@@ -105,7 +105,7 @@ const orcaProducts = [
   },
   {
     name: 'Nurflix Orca Edition',
-    desc: 'AI-powered cinematic storytelling — delivering stories of the Prophets and the Companions. Succeeding the original Nurflix TV vision.',
+    desc: 'AI-powered cinematic storytelling — delivering stories of the Prophets and the Companions through immersive visual narratives.',
     tag: 'Islamic Content',
     status: 'Coming Soon',
   },
@@ -124,7 +124,7 @@ const clientProjects = [
   },
   {
     name: 'Scan2Verse',
-    desc: 'Health tech platform — Scan2Mind (mental health screening), Scan2Eat (food intelligence & community AI training).',
+    desc: 'AI-powered health platform covering mental wellness screening and community nutrition intelligence.',
     tag: 'Health Tech',
   },
 ]
@@ -149,7 +149,7 @@ export function Portfolio() {
         <SectionLabel>Orca Ecosystem</SectionLabel>
         <SectionTitle>Products we're building.</SectionTitle>
         <SectionText>
-          A growing suite of AI-powered platforms — from concept to production.
+          A growing suite of AI-powered platforms — built for Muslim communities and underserved markets across Southeast Asia.
         </SectionText>
 
         <motion.div
@@ -177,9 +177,9 @@ export function Portfolio() {
 
       <Section className="bg-white" id="clients">
         <SectionLabel>Client Projects</SectionLabel>
-        <SectionTitle>Solutions we've delivered.</SectionTitle>
+        <SectionTitle>Platforms we've shipped.</SectionTitle>
         <SectionText>
-          Custom-built platforms for organisations across Malaysia.
+          Custom-built solutions for organisations across Malaysia.
         </SectionText>
 
         <motion.div
@@ -220,8 +220,8 @@ const capabilities = [
     desc: 'End-to-end product engineering — from MVP to scale. Authentication, billing, real-time features, and infrastructure.',
   },
   {
-    title: 'Digital Transformation',
-    desc: 'Helping traditional businesses embrace technology with custom solutions that integrate into existing operations.',
+    title: 'Community-First Design',
+    desc: 'Purpose-built platforms for Muslim communities, Islamic organisations, and underserved markets — designed with cultural context and real-world impact in mind.',
   },
 ]
 
@@ -229,7 +229,7 @@ export function Capabilities() {
   return (
     <Section className="bg-white" id="capabilities">
       <SectionLabel>Capabilities</SectionLabel>
-      <SectionTitle>What we do best.</SectionTitle>
+      <SectionTitle>What sets us apart.</SectionTitle>
 
       <motion.div variants={stagger} className="mt-16 grid gap-12 md:grid-cols-2">
         {capabilities.map((c) => (
@@ -271,9 +271,12 @@ export function Contact() {
   return (
     <Section className="bg-charcoal text-white" id="contact">
       <SectionLabel>Contact</SectionLabel>
-      <motion.h2 variants={fadeUp} className="mb-6 text-3xl font-semibold tracking-tight text-white md:text-5xl">
+      <motion.h2 variants={fadeUp} className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
         Let's build something together.
       </motion.h2>
+      <motion.p variants={fadeUp} className="mb-8 max-w-lg text-base leading-relaxed text-white/40">
+        Tell us about your project — we'll get back to you within 24 hours.
+      </motion.p>
       <motion.div variants={fadeUp} className="space-y-3 text-lg text-white/60">
         <p><a href="mailto:admin@suterahijau.com" className="transition-colors hover:text-white">admin@suterahijau.com</a></p>
         <p>Cyberjaya, Selangor, Malaysia</p>
