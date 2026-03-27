@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode, type FormEvent } from 'react'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -268,15 +268,84 @@ export function TechStack() {
 
 // --- CONTACT ---
 export function Contact() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('sending')
+    const form = e.currentTarget
+    const data = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+    }
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        form.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <Section className="bg-charcoal text-white" id="contact">
       <SectionLabel>Contact</SectionLabel>
       <motion.h2 variants={fadeUp} className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
         Let's build something together.
       </motion.h2>
-      <motion.p variants={fadeUp} className="mb-8 max-w-lg text-base leading-relaxed text-white/40">
+      <motion.p variants={fadeUp} className="mb-10 max-w-lg text-base leading-relaxed text-white/40">
         Tell us about your project — we'll get back to you within 24 hours.
       </motion.p>
+
+      <motion.form variants={fadeUp} onSubmit={handleSubmit} className="mb-12 grid max-w-xl gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <input
+            name="name"
+            type="text"
+            required
+            placeholder="Your name"
+            aria-label="Your name"
+            className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-silk"
+          />
+          <input
+            name="email"
+            type="email"
+            required
+            placeholder="Email address"
+            aria-label="Email address"
+            className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-silk"
+          />
+        </div>
+        <textarea
+          name="message"
+          required
+          rows={4}
+          placeholder="Tell us about your project..."
+          aria-label="Your message"
+          className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-silk resize-none"
+        />
+        <div>
+          <button
+            type="submit"
+            disabled={status === 'sending'}
+            className="rounded-lg bg-silk px-8 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          >
+            {status === 'sending' ? 'Sending...' : status === 'sent' ? 'Sent!' : 'Send Message'}
+          </button>
+          {status === 'sent' && <span className="ml-4 text-sm text-silk">We'll be in touch soon.</span>}
+          {status === 'error' && <span className="ml-4 text-sm text-red-400">Something went wrong. Try emailing us directly.</span>}
+        </div>
+      </motion.form>
+
       <motion.div variants={fadeUp} className="space-y-3 text-lg text-white/60">
         <p><a href="mailto:admin@suterahijau.com" className="transition-colors hover:text-white">admin@suterahijau.com</a></p>
         <p>Cyberjaya, Selangor, Malaysia</p>
