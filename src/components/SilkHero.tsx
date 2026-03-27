@@ -212,7 +212,7 @@ export default function SilkHero() {
           Technology Incubator & Digital Solutions
         </p>
         <p className="mt-1 text-xs tracking-[0.2em] text-white/40 uppercase">
-          Est. 2017 — Shah Alam, Malaysia
+          Est. 2017 — Cyberjaya, Selangor
         </p>
       </div>
 

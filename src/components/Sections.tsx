@@ -55,7 +55,7 @@ export function About() {
       <SectionLabel>About</SectionLabel>
       <SectionTitle>Building systems that make lives better.</SectionTitle>
       <SectionText>
-        Sutera Hijau Academy Sdn. Bhd. is a technology incubator based in Shah Alam, Malaysia.
+        Sutera Hijau Academy Sdn. Bhd. is a technology incubator based in Cyberjaya, Selangor.
         Since 2017, we design, build, and ship digital products — from AI-powered platforms to
         SaaS tools that serve real communities. We move fast, stay structured, and always build
         with purpose.
@@ -200,7 +200,7 @@ export function Contact() {
       </motion.h2>
       <motion.div variants={fadeUp} className="space-y-3 text-lg text-white/60">
         <p>admin@suterahijau.com</p>
-        <p>Shah Alam, Selangor, Malaysia</p>
+        <p>Cyberjaya, Selangor, Malaysia</p>
       </motion.div>
       <motion.div variants={fadeUp} className="mt-8">
         <span className="text-xs tracking-[0.2em] text-white/30 uppercase">
