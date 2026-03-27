@@ -103,9 +103,9 @@ const orcaProducts = [
     status: 'Live',
   },
   {
-    name: 'Nurflix',
-    desc: 'AI-powered cinematic content and storytelling platform.',
-    tag: 'Content',
+    name: 'Nurflix Orca Edition',
+    desc: 'AI-powered cinematic storytelling — delivering stories of the Prophets and the Companions. Succeeding the original Nurflix TV vision.',
+    tag: 'Islamic Content',
     status: 'Coming Soon',
   },
 ]
