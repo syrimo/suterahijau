@@ -16,31 +16,31 @@ const vertexShader = `
 
     // Distance from mouse
     float dist = distance(uv, uMouse);
-    float mouseInfluence = smoothstep(0.45, 0.0, dist) * 0.25;
+    float mouseInfluence = smoothstep(0.5, 0.0, dist) * 0.35;
 
-    // Draped fabric folds — larger, softer undulations like cloth on floor
-    float fold1 = sin(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.3) * 0.12;
-    float fold2 = sin(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.25) * 0.10;
-    float fold3 = sin(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.4) * 0.05;
-    float fold4 = cos(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.35) * 0.07;
+    // Draped fabric folds — super slow idle breathing
+    float fold1 = sin(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.06) * 0.12;
+    float fold2 = sin(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.05) * 0.10;
+    float fold3 = sin(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.08) * 0.05;
+    float fold4 = cos(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.07) * 0.07;
 
-    // Wrinkle detail — fine creases
-    float wrinkle1 = sin(pos.x * 8.0 + pos.y * 6.0 + uTime * 0.5) * 0.015;
-    float wrinkle2 = sin(pos.x * 12.0 - pos.y * 9.0 + uTime * 0.3) * 0.008;
+    // Wrinkle detail — barely moving
+    float wrinkle1 = sin(pos.x * 8.0 + pos.y * 6.0 + uTime * 0.1) * 0.015;
+    float wrinkle2 = sin(pos.x * 12.0 - pos.y * 9.0 + uTime * 0.06) * 0.008;
 
-    // Mouse push — like pressing down on draped cloth
-    float push = sin(dist * 12.0 - uTime * 2.5) * mouseInfluence;
-    float lift = smoothstep(0.3, 0.0, dist) * 0.08;
+    // Mouse drag — fabric follows pointer, pulls cloth toward cursor
+    float push = sin(dist * 8.0 - uTime * 1.5) * mouseInfluence;
+    float lift = smoothstep(0.35, 0.0, dist) * 0.14;
 
     float elevation = fold1 + fold2 + fold3 + fold4 + wrinkle1 + wrinkle2 + push + lift;
     pos.z = elevation;
     vElevation = elevation;
 
     // Calculate normal for lighting
-    float dx = cos(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.3) * 2.0 * 0.12
-             + cos(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.4) * 3.5 * 0.05;
-    float dy = cos(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.25) * 1.8 * 0.10
-             - sin(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.35) * 2.8 * 0.07;
+    float dx = cos(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.06) * 2.0 * 0.12
+             + cos(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.08) * 3.5 * 0.05;
+    float dy = cos(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.05) * 1.8 * 0.10
+             - sin(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.07) * 2.8 * 0.07;
     vNormal = normalize(vec3(-dx, -dy, 1.0));
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -117,8 +117,8 @@ function SilkMesh() {
 
     const target = mouseRef.current
     const current = material.uniforms.uMouse.value
-    current.x += (target.x - current.x) * 0.04
-    current.y += (target.y - current.y) * 0.04
+    current.x += (target.x - current.x) * 0.08
+    current.y += (target.y - current.y) * 0.08
   })
 
   const handlePointerMove = (e: { uv?: { x: number; y: number } | null }) => {
