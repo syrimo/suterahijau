@@ -175,7 +175,7 @@ export function Portfolio() {
         </motion.div>
       </Section>
 
-      <Section className="bg-white">
+      <Section className="bg-white" id="clients">
         <SectionLabel>Client Projects</SectionLabel>
         <SectionTitle>Solutions we've delivered.</SectionTitle>
         <SectionText>
@@ -248,7 +248,7 @@ export function TechStack() {
   const stack = ['React', 'Next.js', 'Supabase', 'Vercel', 'Google Cloud', 'Anthropic AI', 'Tailwind CSS', 'TypeScript']
 
   return (
-    <Section className="bg-gray-50">
+    <Section className="bg-gray-50" id="technology">
       <SectionLabel>Technology</SectionLabel>
       <SectionTitle>Built on modern foundations.</SectionTitle>
       <motion.div variants={stagger} className="mt-12 flex flex-wrap gap-3">

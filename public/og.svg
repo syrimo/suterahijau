@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#silk)" opacity="0.3"/>
+  <defs>
+    <radialGradient id="silk" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a8a5c"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+  </defs>
+  <text x="600" y="260" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="64" fill="white" opacity="0.95">sutera hijau</text>
+  <text x="600" y="330" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="300" font-size="24" fill="white" opacity="0.5" letter-spacing="8">TECHNOLOGY INCUBATOR</text>
+  <text x="600" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="300" font-size="16" fill="white" opacity="0.3" letter-spacing="4">EST. 2017 — CYBERJAYA, SELANGOR</text>
+</svg>

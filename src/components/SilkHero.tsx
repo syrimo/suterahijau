@@ -206,7 +206,7 @@ export default function SilkHero() {
         <h1 className="sr-only">Sutera Hijau Academy Sdn. Bhd. — Technology Incubator & Digital Solutions</h1>
         <img
           src="/logo-white.png"
-          alt="Sutera Hijau Academy"
+          alt="Sutera Hijau Academy Sdn. Bhd."
           className="mb-6 h-14 opacity-90 drop-shadow-lg md:h-18 lg:h-20"
         />
         <p className="mt-2 text-sm tracking-[0.3em] text-white/60 uppercase md:text-base" aria-label="Tagline">
