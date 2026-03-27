@@ -122,8 +122,8 @@ const fragmentShader = `
     color += sheen * smoothstep(0.15, 0.0, dist) * 0.08;
 
     // Visible silk threads — warp and weft pattern
-    float warp = sin(vUv.x * 600.0) * 0.5 + 0.5;
-    float weft = sin(vUv.y * 600.0) * 0.5 + 0.5;
+    float warp = sin(vUv.x * 2400.0) * 0.5 + 0.5;
+    float weft = sin(vUv.y * 2400.0) * 0.5 + 0.5;
     float threadPattern = warp * weft;
     float threadShadow = smoothstep(0.3, 0.0, threadPattern) * 0.06;
     float threadHighlight = smoothstep(0.7, 1.0, threadPattern) * 0.04;
@@ -131,7 +131,7 @@ const fragmentShader = `
     color += highlight * threadHighlight * foldLight * 0.3;
 
     // Diagonal twill weave — silk satin characteristic
-    float twill = sin((vUv.x + vUv.y) * 450.0) * 0.5 + 0.5;
+    float twill = sin((vUv.x + vUv.y) * 1800.0) * 0.5 + 0.5;
     color += vec3(0.005, 0.015, 0.008) * twill * foldLight;
 
     // Fine grain noise
