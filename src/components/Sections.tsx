@@ -74,8 +74,8 @@ const orcaProducts = [
   },
   {
     name: 'OrcaPulse',
-    desc: 'Intelligent customer support and ticketing system with real-time notifications.',
-    tag: 'Support',
+    desc: 'AI-native ticketing and change request management system with real-time notifications.',
+    tag: 'Ticketing',
     status: 'Live',
   },
   {
