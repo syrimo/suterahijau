@@ -85,21 +85,21 @@ const orcaProducts = [
     status: 'Beta',
   },
   {
-    name: 'OrcaIlm',
-    desc: 'Islamic knowledge research centre — powered by OrcaSheikh. Scholarly research and content curation.',
+    name: 'OrcaScholar',
+    desc: 'Islamic knowledge research centre — powered by OrcaSheikh. Scholarly research, content curation, and authenticated references.',
     tag: 'Islamic',
     status: 'Coming Soon',
   },
   {
     name: 'OrcaArena',
-    desc: 'Competitive gaming and esports tournament management platform.',
-    tag: 'Gaming',
+    desc: 'AI debate arena — watch AI models clash on real topics. Learn from structured arguments and counter-arguments.',
+    tag: 'AI Debate',
     status: 'Coming Soon',
   },
   {
     name: 'OrcaNexus',
-    desc: 'Team collaboration and project management for distributed teams.',
-    tag: 'Productivity',
+    desc: 'Enterprise operating system — team collaboration, project management, and organisational intelligence.',
+    tag: 'Enterprise OS',
     status: 'Live',
   },
   {
