@@ -18,29 +18,44 @@ const vertexShader = `
     float dist = distance(uv, uMouse);
     float mouseInfluence = smoothstep(0.5, 0.0, dist) * 0.35;
 
-    // Draped fabric folds — super slow idle breathing
-    float fold1 = sin(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.06) * 0.12;
-    float fold2 = sin(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.05) * 0.10;
-    float fold3 = sin(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.08) * 0.05;
-    float fold4 = cos(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.07) * 0.07;
+    // === DEEP FABRIC FOLDS — layered frequencies ===
 
-    // Wrinkle detail — barely moving
-    float wrinkle1 = sin(pos.x * 8.0 + pos.y * 6.0 + uTime * 0.1) * 0.015;
-    float wrinkle2 = sin(pos.x * 12.0 - pos.y * 9.0 + uTime * 0.06) * 0.008;
+    // Primary drape — large sweeping folds like heavy silk pooling
+    float fold1 = sin(pos.x * 1.5 + pos.y * 0.4 + uTime * 0.06) * 0.18;
+    float fold2 = sin(pos.y * 1.3 - pos.x * 0.6 + uTime * 0.05) * 0.15;
+    float fold3 = cos(pos.x * 0.8 + pos.y * 1.6 + uTime * 0.04) * 0.12;
 
-    // Mouse drag — fabric follows pointer, pulls cloth toward cursor
+    // Secondary folds — medium creases between big drapes
+    float fold4 = sin(pos.x * 3.0 + pos.y * 2.2 + uTime * 0.08) * 0.06;
+    float fold5 = cos(pos.x * 2.5 - pos.y * 3.0 + uTime * 0.07) * 0.05;
+    float fold6 = sin(pos.x * 4.0 + pos.y * 1.5 - uTime * 0.06) * 0.04;
+
+    // Tertiary — fine wrinkles and micro-creases
+    float wrinkle1 = sin(pos.x * 7.0 + pos.y * 5.0 + uTime * 0.1) * 0.018;
+    float wrinkle2 = sin(pos.x * 11.0 - pos.y * 8.0 + uTime * 0.06) * 0.010;
+    float wrinkle3 = cos(pos.x * 15.0 + pos.y * 12.0 + uTime * 0.08) * 0.006;
+
+    // Gathered center — fabric bunches toward center like draped on surface
+    float centerDist = length(vec2(pos.x, pos.y) * 0.4);
+    float gather = exp(-centerDist * centerDist * 0.8) * 0.10;
+
+    // Mouse drag — fabric follows pointer
     float push = sin(dist * 8.0 - uTime * 1.5) * mouseInfluence;
     float lift = smoothstep(0.35, 0.0, dist) * 0.14;
 
-    float elevation = fold1 + fold2 + fold3 + fold4 + wrinkle1 + wrinkle2 + push + lift;
+    float elevation = fold1 + fold2 + fold3 + fold4 + fold5 + fold6
+                    + wrinkle1 + wrinkle2 + wrinkle3 + gather + push + lift;
     pos.z = elevation;
     vElevation = elevation;
 
-    // Calculate normal for lighting
-    float dx = cos(pos.x * 2.0 + pos.y * 0.5 + uTime * 0.06) * 2.0 * 0.12
-             + cos(pos.x * 3.5 + pos.y * 2.5 + uTime * 0.08) * 3.5 * 0.05;
-    float dy = cos(pos.y * 1.8 - pos.x * 0.7 + uTime * 0.05) * 1.8 * 0.10
-             - sin(pos.x * 1.2 - pos.y * 2.8 + uTime * 0.07) * 2.8 * 0.07;
+    // Analytical normal — derivative of all fold layers
+    float dx = cos(pos.x * 1.5 + pos.y * 0.4 + uTime * 0.06) * 1.5 * 0.18
+             + cos(pos.x * 3.0 + pos.y * 2.2 + uTime * 0.08) * 3.0 * 0.06
+             - sin(pos.x * 2.5 - pos.y * 3.0 + uTime * 0.07) * 2.5 * 0.05
+             + cos(pos.x * 7.0 + pos.y * 5.0 + uTime * 0.1) * 7.0 * 0.018;
+    float dy = cos(pos.y * 1.3 - pos.x * 0.6 + uTime * 0.05) * 1.3 * 0.15
+             + cos(pos.x * 0.8 + pos.y * 1.6 + uTime * 0.04) * 1.6 * 0.12
+             + cos(pos.x * 3.0 + pos.y * 2.2 + uTime * 0.08) * 2.2 * 0.06;
     vNormal = normalize(vec3(-dx, -dy, 1.0));
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -55,46 +70,65 @@ const fragmentShader = `
   varying vec3 vNormal;
 
   void main() {
-    // Rich silk green palette
-    vec3 deepGreen = vec3(0.04, 0.22, 0.14);
-    vec3 midGreen = vec3(0.08, 0.38, 0.24);
-    vec3 brightGreen = vec3(0.14, 0.55, 0.36);
-    vec3 highlight = vec3(0.25, 0.78, 0.52);
-    vec3 shadow = vec3(0.02, 0.08, 0.05);
+    // Deep silk green palette — richer range
+    vec3 abyss = vec3(0.01, 0.06, 0.03);
+    vec3 deepGreen = vec3(0.03, 0.18, 0.10);
+    vec3 midGreen = vec3(0.07, 0.34, 0.22);
+    vec3 brightGreen = vec3(0.12, 0.50, 0.33);
+    vec3 highlight = vec3(0.22, 0.75, 0.50);
+    vec3 sheen = vec3(0.35, 0.90, 0.60);
 
-    // Top-down lighting — light from top-left
-    vec3 lightDir = normalize(vec3(-0.3, -0.4, 1.0));
-    float diffuse = max(dot(vNormal, lightDir), 0.0);
-    float specular = pow(max(dot(reflect(-lightDir, vNormal), vec3(0.0, 0.0, 1.0)), 0.0), 32.0);
+    // Dual lighting — main from top-left, rim from bottom-right
+    vec3 lightDir1 = normalize(vec3(-0.4, -0.5, 1.0));
+    vec3 lightDir2 = normalize(vec3(0.3, 0.4, 0.8));
+    float diffuse1 = max(dot(vNormal, lightDir1), 0.0);
+    float diffuse2 = max(dot(vNormal, lightDir2), 0.0) * 0.3;
+    float diffuse = diffuse1 + diffuse2;
 
-    // Fold shadows and highlights
-    float foldLight = smoothstep(-0.15, 0.2, vElevation);
-    float foldShadow = smoothstep(0.0, -0.18, vElevation);
+    // Anisotropic specular — silk has directional sheen
+    float spec1 = pow(max(dot(reflect(-lightDir1, vNormal), vec3(0.0, 0.0, 1.0)), 0.0), 48.0);
+    float spec2 = pow(max(dot(reflect(-lightDir1, vNormal), vec3(0.0, 0.0, 1.0)), 0.0), 12.0);
+    float specular = spec1 * 0.6 + spec2 * 0.25;
 
-    // Base silk color with lighting
-    vec3 color = mix(deepGreen, midGreen, diffuse * 0.8);
-    color = mix(color, brightGreen, foldLight * diffuse);
-    color = mix(color, shadow, foldShadow * 0.6);
+    // Deep fold mapping — more contrast between peaks and valleys
+    float foldLight = smoothstep(-0.2, 0.25, vElevation);
+    float foldShadow = smoothstep(0.02, -0.25, vElevation);
+    float deepCrease = smoothstep(-0.05, -0.3, vElevation);
 
-    // Silk specular sheen — bright catchlights on folds
-    color += highlight * specular * 0.4;
+    // Build color from depth
+    vec3 color = mix(deepGreen, midGreen, diffuse * 0.7);
+    color = mix(color, brightGreen, foldLight * diffuse * 0.8);
+    color = mix(color, abyss, foldShadow * 0.5);
+    color = mix(color, abyss * 0.5, deepCrease * 0.4);
 
-    // Silk iridescence — subtle color shift across fabric
-    float irid = sin(vUv.x * 6.0 + vUv.y * 4.0 + uTime * 0.2) * 0.5 + 0.5;
-    color += vec3(0.01, 0.04, 0.02) * irid * foldLight;
+    // Silk specular sheen — sharp catchlights on fold ridges
+    color += highlight * specular * 0.35;
+    color += sheen * spec1 * 0.15;
 
-    // Mouse area — soft warm glow like light touching silk
+    // Subsurface scattering — light bleeding through thin folds
+    float sss = smoothstep(0.1, 0.3, vElevation) * diffuse;
+    color += vec3(0.02, 0.08, 0.04) * sss;
+
+    // Silk iridescence — color shifts across fabric grain
+    float irid = sin(vUv.x * 8.0 + vUv.y * 5.0 + uTime * 0.15) * 0.5 + 0.5;
+    float irid2 = cos(vUv.x * 3.0 - vUv.y * 7.0 + uTime * 0.1) * 0.5 + 0.5;
+    color += vec3(0.01, 0.03, 0.02) * irid * foldLight;
+    color += vec3(0.005, 0.02, 0.015) * irid2 * (1.0 - foldShadow);
+
+    // Mouse area — warm spotlight following cursor
     float dist = distance(vUv, uMouse);
     float glow = smoothstep(0.35, 0.0, dist) * 0.2;
     color += highlight * glow * 0.3;
+    color += sheen * smoothstep(0.15, 0.0, dist) * 0.08;
 
-    // Subtle silk texture grain
-    float grain = fract(sin(dot(vUv * 300.0, vec2(12.9898, 78.233))) * 43758.5453);
-    color += grain * 0.01;
+    // Fine silk weave texture
+    float grain = fract(sin(dot(vUv * 400.0, vec2(12.9898, 78.233))) * 43758.5453);
+    float weave = fract(sin(dot(vUv * 800.0, vec2(39.346, 11.135))) * 23421.631);
+    color += (grain * 0.008 + weave * 0.004) * foldLight;
 
-    // Soft vignette — darker edges like draped fabric curling
-    float vignette = smoothstep(0.0, 0.7, length(vUv - 0.5));
-    color = mix(color, shadow, vignette * 0.4);
+    // Deep vignette — fabric falls away at edges
+    float vignette = smoothstep(0.0, 0.65, length(vUv - 0.5));
+    color = mix(color, abyss, vignette * 0.55);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -134,7 +168,7 @@ function SilkMesh() {
       position={[0, 0, 0]}
       onPointerMove={handlePointerMove}
     >
-      <planeGeometry args={[viewport.width * 1.5, viewport.height * 1.5, 200, 200]} />
+      <planeGeometry args={[viewport.width * 1.5, viewport.height * 1.5, 256, 256]} />
       <shaderMaterial
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
