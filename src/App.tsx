@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import SilkHero from './components/SilkHero'
-import { About, Portfolio, Capabilities, TechStack, Contact, Footer } from './components/Sections'
+import { WhatWeBelieve, Initiatives, FollowJourney, Arsenal, Contact, Footer } from './components/Sections'
 
 const navLinks = [
   { label: 'About', href: '#about' },
-  { label: 'Products', href: '#products' },
-  { label: 'Work', href: '#clients' },
+  { label: 'Initiatives', href: '#initiatives' },
+  { label: 'Arsenal', href: '#arsenal' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -82,10 +82,10 @@ export default function App() {
       <Nav />
       <main className="no-scrollbar">
         <SilkHero />
-        <About />
-        <Portfolio />
-        <Capabilities />
-        <TechStack />
+        <WhatWeBelieve />
+        <Initiatives />
+        <FollowJourney />
+        <Arsenal />
         <Contact />
         <Footer />
       </main>

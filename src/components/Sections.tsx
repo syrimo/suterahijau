@@ -49,217 +49,136 @@ function SectionText({ children }: { children: ReactNode }) {
   )
 }
 
-// --- ABOUT ---
-export function About() {
+// --- WHAT WE BELIEVE ---
+export function WhatWeBelieve() {
   return (
     <Section className="bg-white" id="about">
-      <SectionLabel>About</SectionLabel>
-      <SectionTitle>Building AI-powered platforms for communities that matter.</SectionTitle>
+      <SectionLabel>What We Believe</SectionLabel>
+      <SectionTitle>Technology should solve problems that matter.</SectionTitle>
       <SectionText>
-        Sutera Hijau Academy Sdn. Bhd. is a technology incubator based in Cyberjaya, Selangor.
-        Since 2017, we design, build, and ship digital products — from AI-powered platforms to
-        SaaS tools that serve real communities. We move fast, stay structured, and always build
-        with purpose.
+        Sutera Hijau is an independent technology studio — not a startup, not an agency. We build products
+        for education, community, and the preservation of knowledge. We work with intent, release what is
+        ready, and let the work speak for itself. Since 2017, that has not changed.
       </SectionText>
     </Section>
   )
 }
 
-// --- ORCA ECOSYSTEM ---
-const orcaProducts = [
-  {
-    name: 'OrcaSchool',
-    desc: 'AI-powered learning management and school administration platform.',
-    tag: 'EdTech',
-    status: 'Beta',
-  },
-  {
-    name: 'OrcaPulse',
-    desc: 'AI-native ticketing and change request management system with real-time notifications.',
-    tag: 'Ticketing',
-    status: 'Live',
-  },
-  {
-    name: 'OrcaPost',
-    desc: 'AI social media automation — content generation, scheduling, and multi-platform publishing.',
-    tag: 'Social Media',
-    status: 'Beta',
-  },
-  {
-    name: 'OrcaScholar',
-    desc: 'Islamic knowledge platform — AI-powered research, content curation, and authenticated scholarly references.',
-    tag: 'Islamic',
-    status: 'Coming Soon',
-  },
-  {
-    name: 'OrcaArena',
-    desc: 'AI-powered debate platform — structured arguments, counter-arguments, and evidence-based reasoning on real-world topics.',
-    tag: 'AI Debate',
-    status: 'Coming Soon',
-  },
-  {
-    name: 'OrcaNexus',
-    desc: 'Enterprise operating system — team collaboration, project management, and organisational intelligence.',
-    tag: 'Enterprise OS',
-    status: 'Live',
-  },
-  {
-    name: 'Nurflix Orca Edition',
-    desc: 'AI-powered cinematic storytelling — delivering stories of the Prophets and the Companions through immersive visual narratives.',
-    tag: 'Islamic Content',
-    status: 'Coming Soon',
-  },
-]
-
-const clientProjects = [
-  {
-    name: 'BayarZakat',
-    desc: 'Digital zakat collection and distribution system for Malaysian communities.',
-    tag: 'FinTech',
-  },
-  {
-    name: 'HS9 Travel',
-    desc: 'Comprehensive travel management platform for Hajj & Umrah operators.',
-    tag: 'Travel',
-  },
-  {
-    name: 'Scan2Verse',
-    desc: 'AI-powered health platform covering mental wellness screening and community nutrition intelligence.',
-    tag: 'Health Tech',
-  },
-]
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    'Live': 'bg-silk/15 text-silk',
-    'Beta': 'bg-amber-50 text-amber-600',
-    'Coming Soon': 'bg-gray-100 text-gray-400',
-  }
-  return (
-    <span className={`ml-2 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${styles[status] || styles['Coming Soon']}`}>
-      {status}
-    </span>
-  )
+// --- INITIATIVES ---
+interface Initiative {
+  name: string
+  desc: string
+  tag: string
+  href: string
 }
 
-export function Portfolio() {
+const initiatives: Initiative[] = [
+  {
+    name: 'ORCA',
+    tag: 'AI Platform',
+    href: 'https://orcahq.app',
+    desc: 'Our latest invention — an AI-native technology fleet that builds, deploys, and operates autonomous software systems. ORCA maximises artificial intelligence to simplify daily operations across schools, enterprises, and communities. Endless possibilities, one engine.',
+  },
+  {
+    name: 'Nurflix',
+    tag: 'Islamic Streaming',
+    href: 'https://nurflix.tv',
+    desc: 'The mission that started it all. Five years of Islamic storytelling — 40,000 registered viewers and 50,000 organic followers. Nurflix began as a streaming platform to deliver the stories of the Prophets and the Companions. Now being reborn, powered by ORCA\'s AI production fleet.',
+  },
+  {
+    name: 'Nurcast',
+    tag: 'Islamic Audio',
+    href: 'https://nurcast.com',
+    desc: 'A listening space for the Muslim mind. Nurcast delivers Quran exploration and Hadith reflections through podcast — making sacred knowledge accessible, one episode at a time. Five years of free streaming, now expanding with AI-generated original series.',
+  },
+]
+
+export function Initiatives() {
   return (
-    <>
-      <Section className="bg-gray-50" id="products">
-        <SectionLabel>Orca Ecosystem</SectionLabel>
-        <SectionTitle>Products we're building.</SectionTitle>
-        <SectionText>
-          A growing suite of AI-powered platforms — built for Muslim communities and underserved markets across Southeast Asia.
-        </SectionText>
+    <Section className="bg-gray-50" id="initiatives">
+      <SectionLabel>What We Build</SectionLabel>
+      <SectionTitle>Three missions. One studio.</SectionTitle>
 
-        <motion.div
-          variants={stagger}
-          className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {orcaProducts.map((p) => (
-            <motion.div
-              key={p.name}
-              variants={fadeUp}
-              className="group rounded-2xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-lg"
-            >
-              <div className="mb-4 flex items-center">
-                <span className="inline-block rounded-full bg-silk/10 px-3 py-1 text-xs font-medium text-silk">
-                  {p.tag}
-                </span>
-                <StatusBadge status={p.status} />
-              </div>
-              <h3 className="mb-2 text-xl font-semibold text-gray-900">{p.name}</h3>
-              <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
-      <Section className="bg-white" id="clients">
-        <SectionLabel>Work</SectionLabel>
-        <SectionTitle>Platforms we've shipped.</SectionTitle>
-        <SectionText>
-          Custom-built solutions for organisations across Malaysia.
-        </SectionText>
-
-        <motion.div
-          variants={stagger}
-          className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {clientProjects.map((p) => (
-            <motion.div
-              key={p.name}
-              variants={fadeUp}
-              className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-shadow hover:shadow-lg"
-            >
-              <span className="mb-4 inline-block rounded-full bg-gray-200/60 px-3 py-1 text-xs font-medium text-gray-600">
-                {p.tag}
+      <motion.div variants={stagger} className="mt-16 space-y-12">
+        {initiatives.map((item) => (
+          <motion.a
+            key={item.name}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={fadeUp}
+            className="group block rounded-2xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-lg md:p-10"
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <span className="inline-block rounded-full bg-silk/10 px-3 py-1 text-xs font-medium text-silk">
+                {item.tag}
               </span>
-              <h3 className="mb-2 text-xl font-semibold text-gray-900">{p.name}</h3>
-              <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-    </>
-  )
-}
-
-// --- CAPABILITIES ---
-const capabilities = [
-  {
-    title: 'AI & Automation',
-    desc: 'Multi-agent AI systems, intelligent workflows, and machine learning integrations that reduce friction and accelerate delivery.',
-  },
-  {
-    title: 'Web & Mobile Development',
-    desc: 'Modern React applications, progressive web apps, and cross-platform mobile solutions built on proven frameworks.',
-  },
-  {
-    title: 'SaaS Product Development',
-    desc: 'End-to-end product engineering — from MVP to scale. Authentication, billing, real-time features, and infrastructure.',
-  },
-  {
-    title: 'Community-First Design',
-    desc: 'Purpose-built platforms for Muslim communities, Islamic organisations, and underserved markets — designed with cultural context and real-world impact in mind.',
-  },
-]
-
-export function Capabilities() {
-  return (
-    <Section className="bg-white" id="capabilities">
-      <SectionLabel>Capabilities</SectionLabel>
-      <SectionTitle>What sets us apart.</SectionTitle>
-
-      <motion.div variants={stagger} className="mt-16 grid gap-12 md:grid-cols-2">
-        {capabilities.map((c) => (
-          <motion.div key={c.title} variants={fadeUp}>
-            <h3 className="mb-3 text-lg font-semibold text-gray-900">{c.title}</h3>
-            <p className="text-base leading-relaxed text-gray-500">{c.desc}</p>
-          </motion.div>
+              <span className="text-xs text-gray-300 transition-colors group-hover:text-silk">&rarr;</span>
+            </div>
+            <h3 className="mb-3 text-2xl font-semibold text-gray-900 md:text-3xl">{item.name}</h3>
+            <p className="max-w-2xl text-base leading-relaxed text-gray-500">{item.desc}</p>
+          </motion.a>
         ))}
       </motion.div>
     </Section>
   )
 }
 
-// --- TECH STACK ---
-export function TechStack() {
-  const stack = ['React', 'Next.js', 'Supabase', 'Vercel', 'Google Cloud', 'Anthropic AI', 'Tailwind CSS', 'TypeScript']
-
+// --- FOLLOW THE JOURNEY ---
+export function FollowJourney() {
   return (
-    <Section className="bg-gray-50" id="technology">
-      <SectionLabel>Technology</SectionLabel>
-      <SectionTitle>Built on modern foundations.</SectionTitle>
-      <motion.div variants={stagger} className="mt-12 flex flex-wrap gap-3">
-        {stack.map((s) => (
-          <motion.span
-            key={s}
-            variants={fadeUp}
-            className="rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700"
+    <Section className="bg-white" id="journey">
+      <motion.div variants={fadeUp} className="text-center">
+        <p className="text-lg text-gray-400">
+          Follow the builder's journey &rarr;{' '}
+          <a
+            href="https://syrimo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-silk transition-colors hover:text-silk-dark"
           >
-            {s}
-          </motion.span>
+            syrimo.com
+          </a>
+        </p>
+      </motion.div>
+    </Section>
+  )
+}
+
+// --- OUR ARSENAL ---
+const arsenal: Record<string, string[]> = {
+  'AI & LLM': ['Claude Code', 'Claude API', 'Ollama', 'MiMo', 'GPT-5', 'Gemini'],
+  'Dev & Build': ['React', 'Vite', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel', 'Bun', 'Three.js'],
+  'Media & Content': ['Remotion', 'NotebookLM', 'ElevenLabs', 'Nano Banana'],
+  'Comms & Ops': ['Resend', 'Baileys', 'Telegram Bots', 'DigitalOcean'],
+  'Design & Gen': ['21st.dev Magic', 'Google Stitch', 'UI UX Pro Max'],
+  'Dev Tools': ['GitHub CLI', 'Puppeteer', 'Context7'],
+}
+
+export function Arsenal() {
+  return (
+    <Section className="bg-gray-50" id="arsenal">
+      <SectionLabel>Our Arsenal</SectionLabel>
+      <SectionTitle>Tools we explore and use.</SectionTitle>
+      <SectionText>
+        The real stack behind what we build — constantly evolving, always practical.
+      </SectionText>
+
+      <motion.div variants={stagger} className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {Object.entries(arsenal).map(([category, tools]) => (
+          <motion.div key={category} variants={fadeUp}>
+            <h3 className="mb-4 text-xs font-medium tracking-[0.2em] text-gray-400 uppercase">{category}</h3>
+            <div className="flex flex-wrap gap-2">
+              {tools.map((tool) => (
+                <span
+                  key={tool}
+                  className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         ))}
       </motion.div>
     </Section>
@@ -300,10 +219,10 @@ export function Contact() {
     <Section className="bg-charcoal text-white" id="contact">
       <SectionLabel>Contact</SectionLabel>
       <motion.h2 variants={fadeUp} className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
-        Let's build something together.
+        Get in touch.
       </motion.h2>
       <motion.p variants={fadeUp} className="mb-10 max-w-lg text-base leading-relaxed text-white/40">
-        Tell us about your project — we'll get back to you within 24 hours.
+        Have something in mind? Drop us a message — we'll get back to you.
       </motion.p>
 
       <motion.form variants={fadeUp} onSubmit={handleSubmit} className="mb-12 grid max-w-xl gap-4">
@@ -329,7 +248,7 @@ export function Contact() {
           name="message"
           required
           rows={4}
-          placeholder="Tell us about your project..."
+          placeholder="Your message..."
           aria-label="Your message"
           className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-silk resize-none"
         />
