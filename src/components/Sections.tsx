@@ -56,9 +56,9 @@ export function WhatWeBelieve() {
       <SectionLabel>What We Believe</SectionLabel>
       <SectionTitle>Technology should solve problems that matter.</SectionTitle>
       <SectionText>
-        Sutera Hijau is an independent technology studio — not a startup, not an agency. We build products
-        for education, community, and the preservation of knowledge. We work with intent, release what is
-        ready, and let the work speak for itself. Since 2017, that has not changed.
+        Sutera Hijau is an independent technology studio — not a startup, not an agency. We build
+        for education, community, and the preservation of knowledge. We work with intent, release
+        what is ready, and let the work speak for itself. Since 2017, that has not changed.
       </SectionText>
     </Section>
   )
@@ -72,52 +72,76 @@ interface Initiative {
   href: string
 }
 
-const initiatives: Initiative[] = [
+interface Solution {
+  title: string
+  desc: string
+  tag: string
+  status: string
+}
+
+const solutions: Solution[] = [
   {
-    name: 'ORCA',
-    tag: 'AI Platform',
-    href: 'https://orcahq.app',
-    desc: 'Our latest invention — an AI-native technology fleet that builds, deploys, and operates autonomous software systems. ORCA maximises artificial intelligence to simplify daily operations across schools, enterprises, and communities. Endless possibilities, one engine.',
+    title: 'Islamic Storytelling for a New Generation',
+    tag: 'Content & Media',
+    status: 'Alpha',
+    desc: 'AI-powered production of Islamic stories, series, and audio content — bringing the lives of the Prophets and Companions to screens and speakers at a fraction of traditional cost.',
   },
   {
-    name: 'Nurflix',
-    tag: 'Islamic Streaming',
-    href: 'https://nurflix.tv',
-    desc: 'The mission that started it all. Five years of Islamic storytelling — 40,000 registered viewers and 50,000 organic followers. Nurflix began as a streaming platform to deliver the stories of the Prophets and the Companions. Now being reborn, powered by ORCA\'s AI production fleet.',
+    title: 'Smarter School Operations',
+    tag: 'Education',
+    status: 'Beta',
+    desc: 'Streamlining daily operations for Islamic schools — attendance, hafazan tracking, class management, cocurricular activities, and parent communication, all in one place.',
   },
   {
-    name: 'Nurcast',
-    tag: 'Islamic Audio',
-    href: 'https://nurcast.com',
-    desc: 'A listening space for the Muslim mind. Nurcast delivers Quran exploration and Hadith reflections through podcast — making sacred knowledge accessible, one episode at a time. Five years of free streaming, now expanding with AI-generated original series.',
+    title: 'Accessible Community Finance',
+    tag: 'Fintech',
+    status: 'Beta',
+    desc: 'Making zakat and community donations simple, transparent, and accountable — from collection to distribution, with full reporting for institutions and donors.',
+  },
+  {
+    title: 'Autonomous Support & Ticketing',
+    tag: 'Support & Ops',
+    status: 'Beta',
+    desc: 'AI-driven support system that receives, triages, and resolves user tickets autonomously — with human oversight through Telegram notifications and approval workflows.',
+  },
+  {
+    title: 'Social Media Intelligence',
+    tag: 'Social Media',
+    status: 'Beta',
+    desc: 'Automated social media management — content scheduling, engagement tracking, and AI-generated posts tailored to each platform and audience.',
+  },
+  {
+    title: 'Enterprise Operating System',
+    tag: 'Enterprise',
+    status: 'Beta',
+    desc: 'A unified workspace for teams — project management, role-based access, internal tools, and operational dashboards, all under one roof.',
   },
 ]
 
 export function Initiatives() {
   return (
     <Section className="bg-gray-50" id="initiatives">
-      <SectionLabel>What We Build</SectionLabel>
-      <SectionTitle>Three missions. One studio.</SectionTitle>
+      <SectionLabel>What We're Building</SectionLabel>
+      <SectionTitle>Solutions we're working on right now.</SectionTitle>
 
-      <motion.div variants={stagger} className="mt-16 space-y-12">
-        {initiatives.map((item) => (
-          <motion.a
-            key={item.name}
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
+      <motion.div variants={stagger} className="mt-16 grid gap-6 md:grid-cols-3">
+        {solutions.map((item) => (
+          <motion.div
+            key={item.title}
             variants={fadeUp}
-            className="group block rounded-2xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-lg md:p-10"
+            className="rounded-2xl border border-gray-100 bg-white p-8"
           >
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-4 flex items-center gap-2">
               <span className="inline-block rounded-full bg-silk/10 px-3 py-1 text-xs font-medium text-silk">
                 {item.tag}
               </span>
-              <span className="text-xs text-gray-300 transition-colors group-hover:text-silk">&rarr;</span>
+              <span className="inline-block rounded-full border border-gray-200 px-2.5 py-0.5 text-[10px] font-medium tracking-wider text-gray-400 uppercase">
+                {item.status}
+              </span>
             </div>
-            <h3 className="mb-3 text-2xl font-semibold text-gray-900 md:text-3xl">{item.name}</h3>
-            <p className="max-w-2xl text-base leading-relaxed text-gray-500">{item.desc}</p>
-          </motion.a>
+            <h3 className="mb-3 text-xl font-semibold text-gray-900">{item.title}</h3>
+            <p className="text-sm leading-relaxed text-gray-500">{item.desc}</p>
+          </motion.div>
         ))}
       </motion.div>
     </Section>
